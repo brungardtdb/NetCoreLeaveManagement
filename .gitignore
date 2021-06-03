@@ -1,3 +1,5 @@
 .vs/*
 leave-management/bin/Debug/*
 leave-management/obj/Debug/*
+
+leave-management/appsettings.json
