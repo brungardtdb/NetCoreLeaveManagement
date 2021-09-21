@@ -33,13 +33,8 @@ namespace leave_management.Controllers
         // GET: LeaveTypesController/Details/5
         public ActionResult Details(int id)
         {
-            if (!_repo.DoesExist(id))
-            {
-                return NotFound();
-            }
-            var leaveType = _repo.FindById(id);
-            var model = _mapper.Map<LeaveTypeVM>(leaveType);
-            return View(model);
+            var model = GetLeaveTypeVMByID(id);
+            return (model != null) ? View(model) : NotFound();
         }
 
         // GET: LeaveTypesController/Create
@@ -80,12 +75,8 @@ namespace leave_management.Controllers
         // GET: LeaveTypesController/Edit/5
         public ActionResult Edit(int id)
         {
-            if (!_repo.DoesExist(id))
-                return NotFound();
-
-            var leaveType = _repo.FindById(id);
-            var model = _mapper.Map<LeaveTypeVM>(leaveType);
-            return View(model);
+            var model = GetLeaveTypeVMByID(id);
+            return (model != null) ? View(model) : NotFound();
         }
 
         // POST: LeaveTypesController/Edit/5
@@ -118,7 +109,8 @@ namespace leave_management.Controllers
         // GET: LeaveTypesController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var model = GetLeaveTypeVMByID(id);
+            return (model != null) ? View(model) : NotFound();
         }
 
         // POST: LeaveTypesController/Delete/5
@@ -135,5 +127,18 @@ namespace leave_management.Controllers
                 return View();
             }
         }
+
+        #region Helper Methods
+
+        private LeaveTypeVM GetLeaveTypeVMByID(int id)
+        {
+            if (!_repo.DoesExist(id))
+                return null;
+            var leaveType = _repo.FindById(id);
+            var model = _mapper.Map<LeaveTypeVM>(leaveType);
+            return model;
+        }
+
+        #endregion
     }
 }
